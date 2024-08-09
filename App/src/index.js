@@ -7,20 +7,23 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import User from "./components/user/User";
-import Admin from "./components/admin/Admin";
-import Homepage from "./components/home/Hompage";
+import User from "./components/User/User";
+import Admin from "../src/components/Admin/Admin";
+import Homepage from "./components/Home/Hompage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}> {/* Sử dụng nested route bao bọc các outlet cần hiển thị*/}
-          <Route index element={<Homepage />} /> {/* Sử dụng index route chỉ dẫn trang mặc định cần hiển thị*/}
-          <Route path="/users" element={<User />} /> 
-          <Route path="/admins" element={<Admin />} />
+        <Route path="/" element={<App />}>
+          {" "}
+          {/* Sử dụng nested route bao bọc các outlet cần hiển thị*/}
+          <Route index element={<Homepage />} />{" "}
+          {/* Sử dụng index route chỉ dẫn trang mặc định cần hiển thị*/}
+          <Route path="/users" element={<User />} />
         </Route>
+        <Route path="/admins" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
