@@ -25,6 +25,8 @@ import sidebarBg from "../../assets/bg2.jpg";
 import sidebarAvt from "../../assets/avt.jpg";
 import { MdDashboardCustomize } from "react-icons/md";
 
+import { Link } from "react-router-dom";
+
 const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
   return (
     <>
@@ -66,6 +68,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
               // suffix={<span className="badge red">New</span>}
             >
               Dashboard
+              <Link to={"/admins"} />
             </MenuItem>
             {/* <MenuItem icon={<FaGem />}> components</MenuItem> */}
           </Menu>
@@ -75,7 +78,10 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
               icon={<FaGem />}
               title="Features"
             >
-              <MenuItem> Uer Management </MenuItem>
+              <MenuItem>
+                Uer Management
+                <Link to={"manage-users"} />
+              </MenuItem>
               <MenuItem> Quizi Management </MenuItem>
               <MenuItem> Question Management </MenuItem>
             </SubMenu>
