@@ -8,22 +8,29 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import User from "./components/User/User";
-import Admin from "../src/components/Admin/Admin";
+import Admin from "./components/Admin/Admin";
 import Homepage from "./components/Home/Hompage";
+import ManageUser from "./components/Admin/Content/ManageUser";
+import Dashboard from "./components/Admin/Content/Dashboard";
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Sử dụng nested route bao bọc các outlet cần hiển thị*/}
         <Route path="/" element={<App />}>
-          {" "}
-          {/* Sử dụng nested route bao bọc các outlet cần hiển thị*/}
-          <Route index element={<Homepage />} />{" "}
           {/* Sử dụng index route chỉ dẫn trang mặc định cần hiển thị*/}
-          <Route path="/users" element={<User />} />
+          <Route index element={<Homepage />} />{" "}
+          <Route path="users" element={<User />} />
         </Route>
-        <Route path="/admins" element={<Admin />} />
+
+        <Route path="/admins" element={<Admin />}>
+          <Route index element={<Dashboard />} />
+          <Route path="manage-users" element={<ManageUser />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
