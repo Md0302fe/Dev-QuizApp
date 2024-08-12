@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -7,9 +5,9 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { FcPlus } from "react-icons/fc";
-import axios from "axios";
-
 import { toast } from "react-toastify";
+
+import { postCreateUser } from "../../../services/apiServices";
 
 const ModalCreateUser = ({ show, setShow }) => {
   const [state, setState] = useState({
@@ -49,6 +47,7 @@ const ModalCreateUser = ({ show, setShow }) => {
       }));
     }
   };
+
   // Handle-Submit-Create-User
   const handleSubmitCreateUser = async () => {
     // validate : data
@@ -66,25 +65,22 @@ const ModalCreateUser = ({ show, setShow }) => {
       return;
     }
 
-    // use axios post data
-    const data = new FormData();
-    data.append("email", state.email);
-    data.append("password", state.password);
-    data.append("username", state.username);
-    data.append("role", state.role);
-    data.append("userImage", state.image);
-
-    let res = await axios.post(
-      "http://localhost:8081/api/v1/participant",
-      data
+    let data = await postCreateUser(
+      state.email,
+      state.password,
+      state.username,
+      state.role,
+      state.image
     );
-    console.log("CHECK POST >>> " + res.data);
-    if (res.data && res.data.EC === 0) {
+
+    console.log("CHECK POST >>> ", data);
+
+    if (data && data.EC === 0) {
       toast.success("Add new user success !");
       handleClose();
     }
-    if (res.data && res.data.EC != 0) {
-      toast.error(res.data.EM);
+    if (data && data.EC != 0) {
+      toast.error(data.EM);
     }
   };
 
@@ -144,6 +140,7 @@ const ModalCreateUser = ({ show, setShow }) => {
                   type="password"
                   placeholder="Password"
                   value={state.password}
+                  autoComplete="current-password"
                   onChange={(event) => {
                     setState((prevState) => ({
                       ...prevState,
@@ -160,6 +157,7 @@ const ModalCreateUser = ({ show, setShow }) => {
                 <Form.Control
                   placeholder="Enter User Name"
                   value={state.username}
+                  autoComplete="username"
                   onChange={(event) => {
                     setState((prevState) => ({
                       ...prevState,
