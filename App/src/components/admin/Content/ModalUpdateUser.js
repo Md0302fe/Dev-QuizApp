@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
@@ -7,17 +7,39 @@ import Row from "react-bootstrap/Row";
 import { FcPlus } from "react-icons/fc";
 import { toast } from "react-toastify";
 
+import _ from "lodash";
+
 import { postCreateUser } from "../../../services/apiServices";
 
-const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
+const ModalUpdateUser = ({ show, setShow, fetchListUser, dataUpdate }) => {
   const [state, setState] = useState({
     email: "",
     password: "",
     username: "",
     role: "USER",
-    image: "",
     previewImage: "",
+    image: "",
   });
+
+  console.log(dataUpdate);
+
+  useEffect(() => {
+    if (!_.isEmpty(dataUpdate)) {
+      // update State
+      setState({
+        email: dataUpdate.email || "",
+        password: dataUpdate.password || "",
+        username: dataUpdate.username || "",
+        role: dataUpdate.role || "",
+        // display base 64 img. and handle object without image.
+        previewImage: dataUpdate.image
+          ? `data:image/jpeg;base64,${dataUpdate.image}`
+          : null,
+        image: "",
+      });
+    }
+  }, [dataUpdate]);
+
   // handle-Close-Form
   const handleClose = () => {
     setShow(false);
@@ -33,11 +55,10 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
   // Handle-Upload-Image
   const handleUploadImage = (event) => {
     // BLOB image .
-    const url = URL.createObjectURL(event.target.files[0]);
     if (event.target && event.target.files && event.target.files[0]) {
       setState((prevState) => ({
         ...prevState,
-        previewImage: url,
+        previewImage: URL.createObjectURL(event.target.files[0]),
         image: event.target.files[0],
       }));
     } else {
@@ -70,7 +91,7 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
       state.password,
       state.username,
       state.role,
-      state.image
+      state.previewImage
     );
 
     console.log("CHECK POST >>> ", data);
@@ -79,7 +100,6 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
       toast.success("Add new user success !");
       handleClose();
       await fetchListUser();
-      console.log(data);
     }
     if (data && data.EC !== 0) {
       toast.error(data.EM);
@@ -114,7 +134,7 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
       >
         {/* Header Modal */}
         <Modal.Header closeButton>
-          <Modal.Title>Add new user</Modal.Title>
+          <Modal.Title>Update User</Modal.Title>
         </Modal.Header>
         {/* Body Modal */}
         <Modal.Body>
@@ -127,6 +147,7 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
                   type="email"
                   placeholder="Enter email"
                   value={state.email}
+                  disabled
                   onChange={(event) => {
                     setState((prevState) => ({
                       ...prevState,
@@ -229,4 +250,4 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
   );
 };
 
-export default ModalCreateUser;
+export default ModalUpdateUser;
