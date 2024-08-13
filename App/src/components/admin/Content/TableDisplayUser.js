@@ -1,4 +1,9 @@
-const TableDisplayUser = ({ listUsers , handleClickUpdateBtn }) => {
+const TableDisplayUser = ({
+  listUsers,
+  handleClickUpdateBtn,
+  handleClickViewBtn,
+  handleClickDeleteBtn,
+}) => {
   // để đảm bảo cho components này được render trước cần componentsDidmount ~~ useEffect.
   return (
     <>
@@ -22,14 +27,24 @@ const TableDisplayUser = ({ listUsers , handleClickUpdateBtn }) => {
                   <td>{item.email}</td>
                   <td>{item.role}</td>
                   <td>
-                    <button className="btn btn-info">view</button>
+                    <button
+                      className="btn btn-info"
+                      onClick={() => handleClickViewBtn(item)}
+                    >
+                      view
+                    </button>
                     <button
                       className="btn btn-warning mx-3"
                       onClick={() => handleClickUpdateBtn(item)}
                     >
                       update
                     </button>
-                    <button className="btn btn-danger">delete</button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleClickDeleteBtn(item)}
+                    >
+                      delete
+                    </button>
                   </td>
                 </tr>
               );
