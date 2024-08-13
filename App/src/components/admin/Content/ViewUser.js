@@ -4,18 +4,9 @@ import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { FcPlus } from "react-icons/fc";
-import { toast } from "react-toastify";
 import _ from "lodash";
-import { putUpdate } from "../../../services/apiServices";
 
-const ModalUpdateUser = ({
-  show,
-  setShow,
-  fetchListUser,
-  dataUpdate,
-  resetUpdateData,
-}) => {
+const ViewUser = ({ show, setShow, dataUpdate }) => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -42,84 +33,9 @@ const ModalUpdateUser = ({
     }
   }, [dataUpdate]);
 
-  // handle-Close-Form
+  // Handle-Close-Form
   const handleClose = () => {
     setShow(false);
-    setState({
-      email: "",
-      password: "",
-      username: "",
-      role: "USER",
-      image: "",
-      previewImage: "",
-    });
-    resetUpdateData();
-  };
-  // Handle-Upload-Image
-  const handleUploadImage = (event) => {
-    // BLOB image .
-    if (event.target && event.target.files && event.target.files[0]) {
-      setState((prevState) => ({
-        ...prevState,
-        previewImage: URL.createObjectURL(event.target.files[0]),
-        image: event.target.files[0],
-      }));
-    } else {
-      setState((prevState) => ({
-        ...prevState,
-        previewImage: null,
-      }));
-    }
-  };
-
-  // Handle-Submit-Create-User
-  const handleSubmitCreateUser = async () => {
-    // validate : data
-    const isValidateEmail = validateEmail(state.email);
-    // const isValidatePassword = validatePassword(state.password);
-
-    if (!isValidateEmail) {
-      toast.error("Invalid email");
-      return;
-    }
-    // if (!isValidatePassword) {
-    //   toast.info(
-    //     "Tối thiểu tám ký tự, ít nhất một chữ cái, một số và một ký tự đặc biệt"
-    //   );
-    //   return;
-    // }
-
-    let data = await putUpdate(
-      dataUpdate.id,
-      state.username,
-      state.role,
-      state.image
-    );
-
-    if (data && data.EC === 0) {
-      toast.success("Add new user success !");
-      handleClose();
-      await fetchListUser();
-    }
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
-    }
-  };
-
-  // Validated--Email
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-
-  // Validated--Password
-  const validatePassword = (password) => {
-    var regex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    return regex.test(password) ? true : false;
   };
 
   return (
@@ -127,18 +43,24 @@ const ModalUpdateUser = ({
       <Modal
         id="Form-Add-User"
         className="modal-add-user"
-        backdrop="static"
+        backdrop="true"
         show={show}
         onHide={handleClose}
         size="xl"
       >
         {/* Header Modal */}
         <Modal.Header closeButton>
-          <Modal.Title>Update User</Modal.Title>
+          <Modal.Title>User Infomation</Modal.Title>
         </Modal.Header>
         {/* Body Modal */}
         <Modal.Body>
           <Form>
+            <Row className="mb-4">
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>User ID</Form.Label>
+                <h2>{dataUpdate.id}</h2>
+              </Form.Group>
+            </Row>
             {/* Row 1 : Email , Password */}
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridEmail">
@@ -174,11 +96,13 @@ const ModalUpdateUser = ({
                 />
               </Form.Group>
             </Row>
+
             {/* Row 2 : UserName , Role */}
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridUserName">
                 <Form.Label>User Name</Form.Label>
                 <Form.Control
+                  disabled
                   placeholder="Enter User Name"
                   value={state.username}
                   autoComplete="username"
@@ -195,6 +119,7 @@ const ModalUpdateUser = ({
                 <Form.Label>Role</Form.Label>
                 <Form.Select
                   value={state.role}
+                  disabled
                   onChange={(event) => {
                     setState((prevState) => ({
                       ...prevState,
@@ -208,21 +133,7 @@ const ModalUpdateUser = ({
               </Form.Group>
             </Row>
             {/* Row 3 : User Image */}
-            <Row>
-              <Form.Group
-                className="load-image"
-                as={Col}
-                controlId="formGridImage"
-                onChange={(event) => handleUploadImage(event)}
-              >
-                <Form.Label className="label-upload">
-                  Upload File Image
-                  <FcPlus className="label-upload-icon" />
-                </Form.Label>
 
-                <Form.Control type="file" size="sm" hidden />
-              </Form.Group>
-            </Row>
             {/* Row 4 : Handle Show Image */}
             <Form.Group
               as={Col}
@@ -242,13 +153,10 @@ const ModalUpdateUser = ({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateUser;
+export default ViewUser;
