@@ -11,13 +11,17 @@ function App() {
         <Topup></Topup>
         <Header></Header>
       </div>
+
       {/* Main-Body-App */}
       <div className="main-container">
+        {/* slider-nav */}
         <div className="slidenav-container"></div>
+        {/* main-content */}
         <div className="app-content">
           <Outlet></Outlet>
         </div>
       </div>
+
       {/* Footer App */}
       <div className="footer"></div>
     </div>

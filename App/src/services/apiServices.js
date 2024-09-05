@@ -29,7 +29,7 @@ const getAllUsers = () => {
   return axios.get("api/v1/participant/all");
 };
 
-// (F) : DELETE  user by database.
+// (F) : DELETE  user by database. type : XXX-URLencoded
 const deleteUser = (user) => {
   // sử dụng dạng x-www-form-urlencoded : dạng object { data : { ... code sent} }
   return axios.delete("api/v1/participant", { data: { id: user.id } });
@@ -41,10 +41,16 @@ const getUserWithPaginate = (page, limit) => {
   return axios.get(`api/v1/participant?page=${page}&limit=${limit}`);
 };
 
+// (F) : POST Login
+const postLogin = (email, password) => {
+  return axios.post("/api/v1/login", { email, password });
+};
+
 export {
   postCreateUser,
   getAllUsers,
   putUpdate,
   deleteUser,
   getUserWithPaginate,
+  postLogin,
 };

@@ -9,7 +9,12 @@ import { toast } from "react-toastify";
 
 import { postCreateUser } from "../../../services/apiServices";
 
-const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
+const ModalCreateUser = ({
+  show,
+  setShow,
+  fetchListUserWithPaginate,
+  setCurrentPage,
+}) => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -73,13 +78,11 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
       state.image
     );
 
-    console.log("CHECK POST >>> ", data);
-
     if (data && data.EC === 0) {
       toast.success("Add new user success !");
+      setCurrentPage(1);
+      await fetchListUserWithPaginate(1);
       handleClose();
-      await fetchListUser();
-      console.log(data);
     }
     if (data && data.EC !== 0) {
       toast.error(data.EM);

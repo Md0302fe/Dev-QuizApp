@@ -1,4 +1,6 @@
 import ReactPaginate from "react-paginate";
+import { MdArrowBackIos } from "react-icons/md";
+import { MdArrowForwardIos } from "react-icons/md";
 
 const TableUserPaginate = ({
   listUsers,
@@ -7,22 +9,36 @@ const TableUserPaginate = ({
   handleClickDeleteBtn,
   fetchListUserWithPaginate,
   pageCount,
+  currentPage,
+  setCurrentPage,
 }) => {
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
+    setCurrentPage(+event.selected + 1);
     fetchListUserWithPaginate(+event.selected + 1);
   };
+
   // để đảm bảo cho components này được render trước cần componentsDidmount ~~ useEffect.
   return (
     <>
-      <table className="table table-hover table-bordered">
+      <table className="table table-hover table-bordered table-list-user">
         <thead>
           <tr>
-            <th scope="col">No</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col">Action</th>
+            <th scope="col" className="text-center">
+              No
+            </th>
+            <th scope="col" className="text-center">
+              Username
+            </th>
+            <th scope="col" className="text-center">
+              Email
+            </th>
+            <th scope="col" className="text-center">
+              Role
+            </th>
+            <th scope="col" className="text-center">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -30,11 +46,13 @@ const TableUserPaginate = ({
             listUsers.map((item, index) => {
               return (
                 <tr key={item.id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{item.username}</td>
-                  <td>{item.email}</td>
-                  <td>{item.role}</td>
-                  <td>
+                  <th className="text-center" scope="row">
+                    {index + 1}
+                  </th>
+                  <td className="username">{item.username}</td>
+                  <td className="email">{item.email}</td>
+                  <td className="text-center role">{item.role}</td>
+                  <td className="d-flex justify-content-center actions">
                     <button
                       className="btn btn-info"
                       onClick={() => handleClickViewBtn(item)}
@@ -59,14 +77,14 @@ const TableUserPaginate = ({
             })
           ) : (
             <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>
+              <td colSpan="5" style={{ textAlign: "center" }}>
                 No Users Found !
               </td>
             </tr>
           )}
         </tbody>
       </table>
-      <div className="TablePagination d-flex justify-content-center">
+      <div className="TablePagination">
         <ReactPaginate
           nextLabel="next >"
           onPageChange={handlePageClick}

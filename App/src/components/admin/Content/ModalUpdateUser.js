@@ -12,9 +12,11 @@ import { putUpdate } from "../../../services/apiServices";
 const ModalUpdateUser = ({
   show,
   setShow,
-  fetchListUser,
+  fetchListUserWithPaginate,
   dataUpdate,
   resetUpdateData,
+  currentPage,
+  setCurrentPage,
 }) => {
   const [state, setState] = useState({
     email: "",
@@ -97,9 +99,9 @@ const ModalUpdateUser = ({
     );
 
     if (data && data.EC === 0) {
-      toast.success("Add new user success !");
+      toast.success("Update user info success !");
+      await fetchListUserWithPaginate(currentPage);
       handleClose();
-      await fetchListUser();
     }
     if (data && data.EC !== 0) {
       toast.error(data.EM);

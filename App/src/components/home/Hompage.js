@@ -4,8 +4,6 @@ import videoHomepage from "../../assets/video-homepage.mp4";
 const Hompage = (props) => {
   return (
     <div className="homepage-container">
-        
-    
       <div className="home-main">
         {/* Homepaeg-video */}
         <div className="hompage-video">
@@ -25,7 +23,6 @@ const Hompage = (props) => {
             <button className="content-btn-btn">Get started—it's free</button>
           </div>
         </div>
-
       </div>
     </div>
   );
