@@ -4,7 +4,9 @@
     font-weight: 600;
     font-size: 28px;
   }
+  // User-Contain
   .user-content {
+    // #1
     .btn-add-new {
       margin: 15px 0;
       .btn {
@@ -14,7 +16,32 @@
         gap: 8px;
       }
     }
+    // #2
     .table-users-container {
+      // #1
+      .table-list-user {
+        // #2
+        tbody {
+          .username {
+          }
+          .username,
+          .email {
+            min-width: 150px;
+            padding-left: 16px;
+          }
+          .role {
+            min-width: 70px;
+          }
+          .actions {
+          }
+        }
+      }
+      .TablePagination {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 }

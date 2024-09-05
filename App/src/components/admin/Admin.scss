@@ -74,19 +74,6 @@
     }
 
     .admin-main {
-      // Paginate-Page
-      .TablePagination {
-        .pagination {
-          min-width: 600px;
-          display: flex;
-          justify-content: center;
-        }
-        .pagination .page-item:first-child {
-          color: black;
-        }
-        .pagination .page-item:last-child .page-link {
-        }
-      }
     }
   }
 }
